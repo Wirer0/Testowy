@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graf</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            color: #333;
+        }
+        .mermaid-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</head>
+<body>
+    <div class="mermaid-container">
+        <div class="mermaid">
+            graph TD
+                S1(("1/0"))
+                S2(("2/0"))
+                S3(("3/0"))
+                S6(("6/0"))
+                S4(("4/1"))
+                S5(("5/1"))
+                s6(("8/1"))
+                %% Stany początkowe dla a=0
+                S1 -->|00| S1
+                S1 -->|01| S2
+                S1 -->|10| S6
+
+                S2 -->|01| S2
+                S2 -->|00| S1
+                S2 -->|11| S3
+
+                %% Oczekiwanie na pierwszą zmianę (y=0)
+                S3 -->|11| S3
+                S3 -->|01| S2
+                S3 -->|10| S4
+
+                S6 -->|10| S6
+                S6 -->|00| S1
+                S6 -->|11| S5
+
+                %% Pierwsza zmiana nastąpiła (wymuszenie wyjścia y=1)
+                S4 -->|10| S4
+                S4 -->|00| S1
+                S4 -->|11| S5
+
+                S5 -->|11| S5
+                S5 -->|01| S2
+                S5 -->|10| S4
+        </div>
+    </div>
+
+</body>
+</html>
